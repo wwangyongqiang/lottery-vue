@@ -1,0 +1,8 @@
+h2 {
+  color: aqua;
+}
+#bg-div {
+  width: 400px;
+  height: 200px;
+  background: url(../image/carousel-4.png) no-repeat;
+}
