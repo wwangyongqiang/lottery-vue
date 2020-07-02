@@ -8,6 +8,7 @@ module.exports = {
   entry: {
     index: './src/js/index.js',
     login: './src/js/login.js',
+    register: './src/js/register.js',
   },
   output: {
     filename: 'js/[name].bundle.js',
@@ -104,9 +105,14 @@ module.exports = {
       chunks: ['login', 'commons'],
     }),
     new HtmlWebpackPlugin({
+      template: './src/html/register.html',
+      filename: './html/register.html',
+      chunks: ['register', 'commons'],
+    }),
+    new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: './index.html',
-      chunks: ['index', ]
+      chunks: ['index', 'commons']
     }),
   ],
 };

@@ -13,7 +13,7 @@ small{font-size:12px;}
 
 ul,ol{list-style:none;}
 
-a{text-decoration:none;color: #333;}
+a{text-decoration:none;color: #333;outline: none;}
 a:hover{color:#409eff};
 
 sup{vertical-align:text-top;}
