@@ -8,6 +8,13 @@
   }
   .right {
     float: right;
+    #userInfo {
+      .user-phone {
+        display: block;
+        height: 100%;
+        color: #333;
+      } 
+    }
   }
 }
 $light-blue: #409eff;

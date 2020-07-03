@@ -1,8 +1,10 @@
 
 let serverPublicPath = 'https://buluoge.work/';
 let serverApi = 'https://buluoge.work/api/';
+const env = process.env.NODE_ENV;
 
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'development' ? '/' : serverPublicPath,
-  api: process.env.NODE_ENV === 'development' ? 'localhost:4000/api/' : serverApi,
+  publicPath: env === 'development' ? '/' : serverPublicPath,
+  api: env === 'development' ? '/dev/api' : serverApi,
+  BASE_URL: '/api'
 };

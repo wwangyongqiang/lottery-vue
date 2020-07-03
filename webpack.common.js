@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const config = require('./user.config');
 const { loader } = require('mini-css-extract-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
   entry: {
@@ -26,7 +27,9 @@ module.exports = {
           name: 'commons' //提取出来的文件命名
         }
       }
-    }
+    },
+    minimize: process.env.NODE_ENV === 'development' ? false : true,
+    minimizer: [new UglifyJsPlugin()],
   },
   module: {
     rules: [

@@ -1,6 +1,8 @@
 import '../css/login.css'
 import '../css/reset.css'
 import utils from './utils'
+import config from '../../user.config'
+const BASE_URL = config.BASE_URL;
 
 // 密码可见
 (function changePassVisibility() {
@@ -30,7 +32,6 @@ let passErr = false;
 let passErrMsg = '';
 let passRepeatErr = false;
 let passRepeatErrMsg = '';
-const BASE_URL = '/api'; // dev http://localhost:4000 prod /api
 const setMessage = function (element, msg) {
   if (!element) return 0;
   element.innerText = msg;
@@ -131,7 +132,7 @@ const setMessage = function (element, msg) {
       .then(res => {
         const data = res.data;
         if (data.code === 1001) {
-          window.location.href = 'login.html';
+          window.location.href = '/html/login.html';
         }
       }).catch(err => {
         console.log(err);

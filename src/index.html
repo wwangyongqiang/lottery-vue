@@ -14,12 +14,20 @@
       <div class="outer-wrapper clearfix">
         <div class="left">彩票信息</div>
         <div class="right">
-          <form id="login-form">
+          <form id="login-form" style="display: none;">
             <div class="login-form-item">
               <a href="/html/login.html">登录</a>
               <a href="/html/register.html">注册</a>
             </div>
           </form>
+          <div id="userInfo" class="dropdown">
+            <a href="javascript:void(0)" class="user-phone">18989467817</a>
+            <ul class="user-info-list dropdown-list">
+              <li>用户等级: lv5</li>
+              <li>用户类别：普通用户</li>
+              <li><a id="logoutBtn" href="javascript:void(0)">退出登录</a></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

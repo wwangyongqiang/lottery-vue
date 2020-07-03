@@ -1,152 +1,163 @@
 import '../css/login.css'
 import '../css/reset.css'
 import utils from './utils'
+import config from '../../user.config'
 
-// 公共变量
-let phoneErr = false;
-let phoneErrMsg = '';
-let passErr = false;
-let passErrMsg = '';
-const BASE_URL = '/api'; // dev http://localhost:4000 prod /api
-const setMessage = function (element, msg) {
-  if (!element) return 0;
-  element.innerText = msg;
-};
+class Main {
+  constructor() {
+    this.phoneErr = false;
+    this.phoneErrMsg = '';
+    this.passErr = false;
+    this.passErrMsg = '';
+    this.BASE_URL = config.BASE_URL; // dev http://localhost:4000 prod /api
+    this.phoneInputEle = document.querySelector('.input-item-phone input');
+    this.passInputEle = document.querySelector('.input-item-pass input');
+    this.passVisibleBtn = document.querySelector('.input-item-pass .suffix-item');
+    this.submitBtnEle = document.querySelector('.btn-login');
+  }
 
-// 获取cookie 
-(function () {
-  const cookie = document.cookie; //
-  if (cookie) {
-    let arr = cookie.split(';');
-    arr = arr.map(item => item.split('='));
-    let obj = {};
-    arr.forEach(item => {
-      let key = item[0].trim();
-      let value = item[1].trim();
-      obj[key] = value;
-    });
+  init() {
+    this.initCookie();
+    this.initPassValidate();
+    this.initPassVisibility();
+    this.initPhoneValidate();
+    this.initSubmit();
+  }
 
-    if (obj.p) {
-      const passEle = document.querySelector('.input-item-pass input');
-      passEle.value = window.atob(obj.p);
+  setMessage (element, msg) {
+    if (!element) return 0;
+    element.innerText = msg;
+  }
+
+  initCookie() {
+    // 获取cookie 
+    let phoneCookie = null;
+    let pCookie = null;
+    if (phoneCookie = utils.docCookies.getItem('phone')) {
+      this.phoneInputEle.value = phoneCookie;
     }
-    if (obj.phone) {
-      const phoneEle = document.querySelector('.input-item-phone input');
-      phoneEle.value = obj.phone;
+    if (pCookie = utils.docCookies.getItem('p')) {
+      this.passInputEle.value = atob(pCookie);
     }
   }
-})();
-// 密码可见
-(function changePassVisibility() {
-  const passVisibleBtn = document.querySelector('.input-item-pass .suffix-item');
-  if (!passVisibleBtn) { return 0; }
-  if (!utils.addClass || !utils.removeClass) { return 0; }
 
-  passVisibleBtn.addEventListener('click', function () {
-    const inputEle = this.previousElementSibling;
-    const iconEle = this.querySelector('i');
-    let type = inputEle.getAttribute('type');
-    if (type === 'text') {
-      inputEle.setAttribute('type', 'password');
-      utils.removeClass(iconEle, 'icon-pass-visible');
-      utils.addClass(iconEle, 'icon-pass');
-    } else {
-      inputEle.setAttribute('type', 'text');
-      utils.removeClass(iconEle, 'icon-pass');
-      utils.addClass(iconEle, 'icon-pass-visible');
-    }
-  });
-})();
+  initPassVisibility() {
 
-// 验证手机号
-(function () {
-  const ele = document.querySelector('.input-item-phone input');
-  const errEle = document.querySelector('.input-item-phone .input-error-msg span');
-  ele.addEventListener('blur', function () {
-    let userPphone = this.value;
-    const phoneReg = /^1[34578][0-9]{9}$/;
-    // 本地格式验证
-    if (!phoneReg.test(userPphone)) {
-      phoneErr = true;
-      phoneErrMsg = '手机号格式错误，请重新填写!';
-      setMessage(errEle, phoneErrMsg);
-      return 0;
-    } else {
-      phoneErr = false;
-      phoneErrMsg = '';
-      setMessage(errEle, phoneErrMsg);
-    }
-    // 远程验证
-    axios.get(BASE_URL + '/user', {
-      params: {
-        phone: userPphone
+    this.passVisibleBtn.addEventListener('click',  () => {
+      const iconEle = this.passVisibleBtn.querySelector('i'); // 图标icon
+      let type = this.passInputEle.getAttribute('type');
+      if (type === 'text') {
+        this.passInputEle.setAttribute('type', 'password');
+        utils.removeClass(iconEle, 'icon-pass-visible');
+        utils.addClass(iconEle, 'icon-pass');
+      } else {
+        this.passInputEle.setAttribute('type', 'text');
+        utils.removeClass(iconEle, 'icon-pass');
+        utils.addClass(iconEle, 'icon-pass-visible');
       }
-    })
-      .then(res => {
-        const data = res.data;
+    });
+  }
 
-        if (data.code === 1010) { // 手机号未注册
-          phoneErr = true;
-          phoneErrMsg = data.message;
-          setMessage(errEle, phoneErrMsg);
+  initPhoneValidate() {
+    const errEle = document.querySelector('.input-item-phone .input-error-msg span');
+
+    // focus
+    this.phoneInputEle.addEventListener('focus',  () => {
+        this.phoneErr = false;
+        this.phoneErrMsg = '';
+        this.setMessage(errEle, this.phoneErrMsg);
+    });
+
+    // blur
+    this.phoneInputEle.addEventListener('blur',  () => {
+      let userPphone = this.phoneInputEle.value;
+      const phoneReg = /^1[34578][0-9]{9}$/;
+      // 本地格式验证
+      if (!phoneReg.test(userPphone)) {
+        this.phoneErr = true;
+        this.phoneErrMsg = '手机号格式错误，请重新填写!';
+        this.setMessage(errEle, this.phoneErrMsg);
+        return 0;
+      }
+
+      // 远程验证
+      axios.get(this.BASE_URL + '/user', {
+        params: {
+          phone: userPphone
         }
       })
-      .catch(err => {
-        console.log(err);
-      });
-  });
-})();
+        .then(res => {
+          const data = res.data;
 
-// 本地验证密码格式
-(function () {
-  const passEle = document.querySelector('.input-item-pass input');
-  const passErrEle = document.querySelector('.input-item-pass .input-error-msg span');
-  passEle.addEventListener('blur', function () {
-    let userpass = this.value;
-    let passReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9a-zA-Z]{8,16}$/;
-    if (!passReg.test(userpass)) {
-      passErr = true;
-      passErrMsg = '密码应为8到16位数字字母组合';
-      setMessage(passErrEle, passErrMsg);
-    } else {
-      passErr = false;
-      passErrMsg = '';
-      setMessage(passErrEle, passErrMsg);
-    }
-  });
-})();
+          if (data.code === 1010) { // 手机号未注册
+            this.phoneErr = true;
+            this.phoneErrMsg = data.message;
+            this.setMessage(errEle, this.phoneErrMsg);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    });
+  }
 
-// 提交登录
-(function () {
-  const submitBtnEle = document.querySelector('.btn-login');
-  const passErrEle = document.querySelector('.input-item-pass .input-error-msg span');
-  submitBtnEle.addEventListener('click', function (event) {
-    event.preventDefault();
-    if (phoneErr || passErr) { return 0; }
-    let userPhone = document.querySelector('.input-item-phone input').value;
-    let userPass = document.querySelector('.input-item-pass input').value;
-      if (!userPhone || !userPass) { return 0; }
+  initPassValidate() {
     
+    const passErrEle = document.querySelector('.input-item-pass .input-error-msg span');
 
-    // const userPassHashed = CryptoJS.SHA256(userPass);
-    // console.log(userPassHashed);
-    axios.post(BASE_URL + '/user/login', {
-      phone: userPhone,
-      password: userPass,
-    })
-      .then(res => {
-        const data = res.data;
-        if (data.code === 1012) { // 密码错误
-          console.log(1)
-          passErr = true;
-          passErrMsg = data.message;
-          setMessage(passErrEle, passErrMsg);
-        } 
-        if (data.code === 1000) {
-          window.location.href = 'index.html';
-        }
-      }).catch(err => {
-        console.log(err);
+    // blur
+    this.passInputEle.addEventListener('blur',  () => {
+      let userpass = this.passInputEle.value;
+      let passReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9a-zA-Z]{8,16}$/;
+      if (!passReg.test(userpass)) {
+        this.passErr = true;
+        this.passErrMsg = '密码应为8到16位数字字母组合';
+        this.setMessage(passErrEle, this.passErrMsg);
+      }
+    });
+
+    // focus
+    this.passInputEle.addEventListener('focus', () => {
+        this.passErr = false;
+        this.passErrMsg = '';
+        this.setMessage(passErrEle, this.passErrMsg);
+    });
+  }
+
+  initSubmit() {
+    
+    const passErrEle = document.querySelector('.input-item-pass .input-error-msg span');
+
+    this.submitBtnEle.addEventListener('click',  (event) => {
+      event.preventDefault();
+      if (this.phoneErr || this.passErr) { return 0; }
+      let userPhone = this.phoneInputEle.value;
+      let userPass = this.passInputEle.value;
+      if (!userPhone || !userPass) { return 0; }
+
+
+      // const userPassHashed = CryptoJS.SHA256(userPass);
+      // console.log(userPassHashed);
+      axios.post(this.BASE_URL + '/user/login', {
+        phone: userPhone,
+        password: userPass,
       })
-  });
-})();
+        .then(res => {
+          const data = res.data;
+          if (data.code === 1012) { // 密码错误
+            this.passErr = true;
+            this.passErrMsg = data.message;
+            this.setMessage(passErrEle, this.passErrMsg);
+          }
+          if (data.code === 1000) {
+            window.location.href = '/index.html';
+          }
+        }).catch(err => {
+          console.log(err);
+        })
+    });
+  }
+};
+
+const main = new Main();
+main.init();
