@@ -1,3 +1,7 @@
+html {
+  scroll-behavior:'smooth';
+}
+
 .top-header {
   height: 30px;
   line-height: 30px;
@@ -168,6 +172,15 @@ nav {
         width: 800px;
         margin: 20px auto;
 
+        .news-item.news-loading .loading-item {
+          display: block;
+          width: 200px;
+          height: 48px;
+          line-height: 48px;
+          border: 1px solid #ddd;
+          margin: 4px auto;
+          text-align: center;
+        }
         .news-item > a {
           display: block;
           padding: 12px;
@@ -230,4 +243,15 @@ nav {
       }
     }
   }
+}
+
+#btnToTop {
+  display: none;
+  position: fixed;
+  right: 150px;
+  bottom: 20%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  z-index: 101;
 }

@@ -71,19 +71,162 @@ function updateUserInfo() {
   }
 }
 
-
-
-
+// 登出
 const logoutBtn = document.querySelector('#logoutBtn');
 logoutBtn.addEventListener('click', () => {
   axios.get(config.BASE_URL + '/user/logout')
-  .then(res => {
-    updateUserInfo();
-  })
-  .catch(err => {
-    console.log('ERROR IN AXIOS LOGOUT', err)
-  })
+    .then(res => {
+      updateUserInfo();
+    })
+    .catch(err => {
+      console.log('ERROR IN AXIOS LOGOUT', err)
+    })
 });
+
+// 加载新闻
+class News {
+  constructor(size = 15) {
+    this.size = size;
+    this.page = 1;
+    this.url = config.NEWS_BASE_URL;
+    this.newsListEle = document.querySelector('.news-list');
+    this.canLoading = true;
+  }
+
+  update() {
+
+    this.createLoading('加载中···');
+    this.canLoading = false;
+    axios.get(`${this.url}${this.page}/${this.size}`)
+      .then(res => {     
+        if (res.data.status === '000000') {
+          if (res.data.message === '成功') {
+            this.canLoading = true;
+            const newsList = res.data.data.data;
+            const fragment = document.createDocumentFragment();
+            newsList.forEach(item => {
+              let liEle = this.createSingleNewsTemplate(item);
+              fragment.appendChild(liEle);
+            });
+            this.newsListEle.appendChild(fragment);
+            this.removeLoading();
+          } else {
+            this.removeLoading();
+            this.createLoading('没有了');
+          }
+         
+        } else {
+          console.log('获取新闻失败');
+          console.log(res.data)
+        }
+      })
+      .catch(err => {
+        console.log('Error In Axios With News!');
+        console.log(err);
+      })
+
+  }
+
+  createSingleNewsTemplate(data) {
+    const liEle = document.createElement('li');
+    liEle.className = 'news-item';
+    const template = `
+      <a href="javascript:void(0)" class="clearfix">
+        <div class="left">
+          <img src="./image/news/80400.jpg" alt="">
+        </div>
+        <div class="right">
+          <div class="title"><span class="badge">双色球</span><span class="text">彩精讲双色球命中6红 qinyour888再中5红</span></div>
+          <div class="summary">双色球名家彩精讲命中6红！乐乐购彩、联名彩神、飞雪绒花均顺利命中6红。</div>
+          <div class="info clearfix">
+            <div class="from">来源：中国福彩网</div>
+            <div class="time"><i class="iconfont icon-clock"></i><span class="text">十小时前</span></div>
+          </div>
+        </div>
+      </a>`
+
+    liEle.innerHTML = template;
+    liEle.querySelector('a').setAttribute('href', data.link);
+    liEle.querySelector('.left img').setAttribute('src', data.logoFile);
+    liEle.querySelector('.title .text').innerText = data.title;
+    liEle.querySelector('.summary').innerText = data.summary;
+    liEle.querySelector('.from').innerText = `来源：${data.source}`;
+    liEle.querySelector('.time .text').innerText = data.publishDate;
+
+    if (data.metaValue) {
+      let badge = JSON.parse(data.metaValue);
+      liEle.querySelector('.title .badge').innerText = badge.lx;
+    }
+
+    return liEle;
+  }
+
+  loadMore() {
+    const btnToTopEle = document.querySelector('#btnToTop');
+
+    btnToTopEle.addEventListener('click', () => {
+      console.log(document.body.scrollTop)
+      document.documentElement.style.scrollBehavior = 'smooth';
+      document.body.style.scrollBehavior = 'smooth';
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+
+    });
+
+
+    window.addEventListener('scroll', () => {
+
+      const clientHeight = window.innerHeight || Math.min(document.documentElement.clientHeight,document.body.clientHeight);
+      const scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+
+      if (scrollHeight - scrollTop - clientHeight <= 5) {
+        if (this.canLoading === false) return 0;
+        this.page += 1;
+        this.update();
+      }
+
+       // 回到顶部按钮
+       if (scrollTop > 2 * clientHeight) {
+          btnToTopEle.style.display = 'block';
+       } else {
+         btnToTopEle.style.display = 'none';
+       }
+
+
+    })
+  }
+
+  createLoading (text) {
+    const liEle = document.createElement('li');
+    liEle.className = 'news-item news-loading';
+
+    const template = `
+    <span class="loading-item">
+      ${text}
+    </span>
+    `;
+    liEle.innerHTML = template;
+    this.newsListEle.appendChild(liEle);
+  }
+
+  removeLoading () {
+    const loadingEle = document.querySelector('.news .news-loading');
+    if (!loadingEle) return null;
+    loadingEle.remove();
+  }
+
+  init () {
+    this.update();
+    this.loadMore();
+  }
+
+}
+const newsClient = new News();
+newsClient.init();
+
+
+
 
 
 

@@ -37,7 +37,8 @@ let preActiveIndex = -1;
 
 // tab 吸顶
 document.addEventListener('scroll', function () {
-  if (document.documentElement.scrollTop > 120) {
+  let scrollTop = document.documentElement.scrolltop ||document.body.scrollTop;
+  if (scrollTop > 120) {
     utils.addClass(tab, 'fixed-to-top');
   } else {
     utils.removeClass(tab, 'fixed-to-top');
