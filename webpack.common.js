@@ -85,7 +85,7 @@ module.exports = {
       // },
       {
         test: /\.js$/,
-        include: /src/,
+        exclude: /node-modules/,
         use: {
           loader: "babel-loader",
           options: {
