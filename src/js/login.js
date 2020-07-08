@@ -1,7 +1,10 @@
 import '../css/login.css'
 import '../css/reset.css'
-import utils from './utils'
+import utils from './components/utils'
 import config from '../../user.config'
+import axios from 'axios'
+import authentication from './authentication'
+import { $checkPhone, $login } from './http/user'
 
 class Main {
   constructor() {
@@ -17,33 +20,21 @@ class Main {
   }
 
   init() {
-    this.initCookie();
+    this.test();
     this.initPassValidate();
     this.initPassVisibility();
     this.initPhoneValidate();
     this.initSubmit();
   }
 
-  setMessage (element, msg) {
+  setMessage(element, msg) {
     if (!element) return 0;
     element.innerText = msg;
   }
 
-  initCookie() {
-    // 获取cookie 
-    let phoneCookie = null;
-    let pCookie = null;
-    if (phoneCookie = utils.docCookies.getItem('phone')) {
-      this.phoneInputEle.value = phoneCookie;
-    }
-    if (pCookie = utils.docCookies.getItem('p')) {
-      this.passInputEle.value = atob(pCookie);
-    }
-  }
-
   initPassVisibility() {
 
-    this.passVisibleBtn.addEventListener('click',  () => {
+    this.passVisibleBtn.addEventListener('click', () => {
       const iconEle = this.passVisibleBtn.querySelector('i'); // 图标icon
       let type = this.passInputEle.getAttribute('type');
       if (type === 'text') {
@@ -62,18 +53,18 @@ class Main {
     const errEle = document.querySelector('.input-item-phone .input-error-msg span');
 
     // focus
-    this.phoneInputEle.addEventListener('focus',  () => {
-        this.phoneErr = false;
-        this.phoneErrMsg = '';
-        this.setMessage(errEle, this.phoneErrMsg);
+    this.phoneInputEle.addEventListener('focus', () => {
+      this.phoneErr = false;
+      this.phoneErrMsg = '';
+      this.setMessage(errEle, this.phoneErrMsg);
     });
 
     // blur
-    this.phoneInputEle.addEventListener('blur',  () => {
-      let userPphone = this.phoneInputEle.value;
+    this.phoneInputEle.addEventListener('blur', () => {
+      let userPhone = this.phoneInputEle.value;
       const phoneReg = /^1[34578][0-9]{9}$/;
       // 本地格式验证
-      if (!phoneReg.test(userPphone)) {
+      if (!phoneReg.test(userPhone)) {
         this.phoneErr = true;
         this.phoneErrMsg = '手机号格式错误，请重新填写!';
         this.setMessage(errEle, this.phoneErrMsg);
@@ -81,14 +72,11 @@ class Main {
       }
 
       // 远程验证
-      axios.get(this.BASE_URL + '/user', {
-        params: {
-          phone: userPphone
-        }
+      $checkPhone({
+        phone: userPhone
       })
         .then(res => {
           const data = res.data;
-
           if (data.code === 1010) { // 手机号未注册
             this.phoneErr = true;
             this.phoneErrMsg = data.message;
@@ -102,11 +90,11 @@ class Main {
   }
 
   initPassValidate() {
-    
+
     const passErrEle = document.querySelector('.input-item-pass .input-error-msg span');
 
     // blur
-    this.passInputEle.addEventListener('blur',  () => {
+    this.passInputEle.addEventListener('blur', () => {
       let userpass = this.passInputEle.value;
       let passReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9a-zA-Z]{8,16}$/;
       if (!passReg.test(userpass)) {
@@ -118,17 +106,17 @@ class Main {
 
     // focus
     this.passInputEle.addEventListener('focus', () => {
-        this.passErr = false;
-        this.passErrMsg = '';
-        this.setMessage(passErrEle, this.passErrMsg);
+      this.passErr = false;
+      this.passErrMsg = '';
+      this.setMessage(passErrEle, this.passErrMsg);
     });
   }
 
   initSubmit() {
-    
+
     const passErrEle = document.querySelector('.input-item-pass .input-error-msg span');
 
-    this.submitBtnEle.addEventListener('click',  (event) => {
+    this.submitBtnEle.addEventListener('click', (event) => {
       event.preventDefault();
       if (this.phoneErr || this.passErr) { return 0; }
       let userPhone = this.phoneInputEle.value;
@@ -138,7 +126,7 @@ class Main {
 
       // const userPassHashed = CryptoJS.SHA256(userPass);
       // console.log(userPassHashed);
-      axios.post(this.BASE_URL + '/user/login', {
+      $login({
         phone: userPhone,
         password: userPass,
       })
@@ -150,12 +138,26 @@ class Main {
             this.setMessage(passErrEle, this.passErrMsg);
           }
           if (data.code === 1000) {
-            window.location.href = '/index.html';
+            authentication.login(data.data);
+            let fromUrl = document.referrer;
+            fromUrl = fromUrl || '/index.html';
+            if (fromUrl.includes('login.html')) {
+              fromUrl = '/index.html';
+            }
+            window.location.href = fromUrl;
           }
         }).catch(err => {
           console.log(err);
         })
     });
+  }
+
+  // 是否已经登录
+  test () {
+    const isLogin = authentication.test();
+    if (isLogin) {
+      window.location.href = '/index.html';
+    }
   }
 };
 

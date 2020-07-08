@@ -1,4 +1,4 @@
-import '../css/carousel.scss'
+import '../../css/carousel.scss'
 import utils from './utils'
 
 class Carousel {

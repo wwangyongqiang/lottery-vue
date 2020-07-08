@@ -1,9 +1,12 @@
 import '../css/login.css'
 import '../css/reset.css'
-import utils from './utils'
+import utils from './components/utils'
 import config from '../../user.config'
 import axios from 'axios'
 const BASE_URL = config.BASE_URL;
+import { $register } from './http/user'
+import { $checkPhone } from './http/user'
+import authentication from './authentication'
 
 
 let main = {};
@@ -48,15 +51,11 @@ main.validatePhone = function () {
     if (!phoneReg.test(userPphone)) {
       this.phoneErr = true;
       this.phoneErrMsg = '手机号格式错误，请重新填写!';
-      setMessage(errEle, phoneErrMsg);
+      this.setMessage(this.phoneErrEle, this.phoneErrMsg);
       return 0;
     }
     // 远程验证
-    axios.get(config.BASE_URL + '/user', {
-      params: {
-        phone: userPphone
-      }
-    })
+    $checkPhone({phone: userPphone})
       .then(res => {
         const data = res.data;
         if (data.code === 1011) {
@@ -135,13 +134,14 @@ main.submit = function () {
     if (!userPhone || !userPass || !userPassRepeat) { return 0; }
     if (this.phoneErr || this.passErr || this.passRepeatErr) { return 0; }
     
-    axios.post(config.BASE_URL + '/user/register', {
+    $register({
       phone: userPhone,
       password: userPass,
     })
       .then(res => {
         const data = res.data;
         if (data.code === 1001) {
+          authentication.login(data.data);
           window.location.href = '/index.html';
         }
       }).catch(err => {
@@ -156,6 +156,14 @@ main.init = function () {
   this.validatePass();
   this.togglePassVisibility();
   this.submit();
+};
+
+main.test = function () {
+  // 是否已经登录
+    const isLogin = authentication.test();
+    if (isLogin) {
+      window.location.href = '/index.html';
+    }
 };
 
 main.init();

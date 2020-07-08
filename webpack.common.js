@@ -10,6 +10,7 @@ module.exports = {
     index: './src/js/index.js',
     login: './src/js/login.js',
     register: './src/js/register.js',
+    info: './src/js/info.js'
   },
   output: {
     filename: 'js/[name].bundle.js',
@@ -116,6 +117,11 @@ module.exports = {
       template: './src/index.html',
       filename: './index.html',
       chunks: ['index', 'commons']
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/html/info.html',
+      filename: './html/info.html',
+      chunks: ['info', 'commons']
     }),
   ],
 };

@@ -12,9 +12,13 @@ html {
   }
   .right {
     float: right;
+    .login-form {
+      height: 30px;
+      line-height: 30px;
+    }
     #userInfo {
+      display: none;
       .user-phone {
-        display: block;
         height: 100%;
         color: #333;
       } 
@@ -53,6 +57,9 @@ nav {
         width: 100%;
         left: 0;
       }
+    }
+    &.current a {
+      color: $light-blue;
     }
   }
 }

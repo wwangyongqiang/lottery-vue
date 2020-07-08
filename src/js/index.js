@@ -1,13 +1,12 @@
 import '../css/reset.css'
 import '../css/index.scss'
-import utils from './utils'
-import axios from 'axios'
-
-import './tab'
-import dropdown from './dropdown'
-import Carousel from './carousel'
-import scrollNumber from './scrollNumber'
+import { $news } from './http/news'
+import './components/tab'
+import dropdown from './components/dropdown'
+import Carousel from './components/carousel'
+import scrollNumber from './components/scrollNumber'
 import config from '../../user.config'
+import authentication from './authentication'
 
 
 
@@ -44,45 +43,6 @@ const scrollNumberEleTwo = document.querySelector('#scrollNumberTwo');
 scrollNumber.init(scrollNumberEleOne);
 scrollNumber.init(scrollNumberEleTwo);
 
-// validate Token
-axios.post(config.BASE_URL + '/user/token')
-  .then(res => {
-    console.log('validate token');
-    updateUserInfo();
-  }).catch(err => {
-    console.log('ERROR IN AXIOS TOKEN', err);
-  })
-
-// 获取用户信息
-function updateUserInfo() {
-  const userPhone = utils.docCookies.getItem('uname');
-  const infoEle = document.querySelector('#userInfo');
-  const loginEle = document.querySelector('#login-form');
-  const phoneEle = infoEle.querySelector('.user-phone')
-
-  if (userPhone) {
-    loginEle.style.display = 'none';
-    infoEle.style.display = 'block';
-    phoneEle.innerText = (userPhone);
-  } else {
-    loginEle.style.display = 'block';
-    infoEle.style.display = 'none';
-    phoneEle.innerText = '';
-  }
-}
-
-// 登出
-const logoutBtn = document.querySelector('#logoutBtn');
-logoutBtn.addEventListener('click', () => {
-  axios.get(config.BASE_URL + '/user/logout')
-    .then(res => {
-      updateUserInfo();
-    })
-    .catch(err => {
-      console.log('ERROR IN AXIOS LOGOUT', err)
-    })
-});
-
 // 加载新闻
 class News {
   constructor(size = 15) {
@@ -97,7 +57,7 @@ class News {
 
     this.createLoading('加载中···');
     this.canLoading = false;
-    axios.get(`${this.url}${this.page}/${this.size}`)
+    $news(this.page, this.size)
       .then(res => {     
         if (res.data.status === '000000') {
           if (res.data.message === '成功') {
@@ -224,6 +184,18 @@ class News {
 }
 const newsClient = new News();
 newsClient.init();
+
+
+
+// 显示用户信息
+authentication.init();
+// 登出
+const logoutBtn = document.querySelector('#logoutBtn');
+logoutBtn.addEventListener('click', () => {
+  authentication.logout();
+});
+
+
 
 
 

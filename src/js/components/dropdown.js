@@ -1,4 +1,4 @@
-import '../css/dropdown.scss'
+import '../../css/dropdown.scss'
 
 class Dropdown {
   constructor (ele) {

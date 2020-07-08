@@ -1,0 +1,275 @@
+$light-blue: #409eff;
+$light-red: #f33636;
+$shadow-bottom: 0 1px 3px rgba(26, 26, 26, 0.1);
+html {
+  scroll-behavior: "smooth";
+}
+
+.top-header {
+  height: 30px;
+  line-height: 30px;
+  background-color: #f0f0f0;
+
+  .left {
+    float: left;
+  }
+  .right {
+    float: right;
+    .login-form {
+      height: 30px;
+      line-height: 30px;
+    }
+    #userInfo {
+      display: none;
+      .user-phone {
+        height: 100%;
+        color: #333;
+      }
+    }
+  }
+}
+
+nav {
+  font-size: 15px;
+  background-color: #fff;
+  box-shadow: $shadow-bottom;
+  .nav-item {
+    float: left;
+    margin-right: 20px;
+    a {
+      display: block;
+      position: relative;
+      height: 50px;
+      width: 100px;
+      text-align: center;
+      line-height: 50px;
+      &::after {
+        position: absolute;
+        content: "";
+        height: 2px;
+        width: 0;
+        left: 50%;
+        bottom: 0;
+        transition: all 0.3s;
+      }
+      &:hover::after {
+        background-color: $light-blue;
+        width: 100%;
+        left: 0;
+      }
+    }
+    &.current a {
+      color: $light-blue;
+    }
+  }
+}
+
+.content {
+  .content-wrapper {
+    width: 1200px;
+    margin: 0 auto;
+  }
+  .top-banner {
+    padding: 12px 0;
+    img {
+      width: 1200px;
+    }
+  }
+
+  main {
+    position: relative;
+    & > .left {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 160px;
+      border: 1px solid #e2e2e2;
+      background-color: #fff;
+      .type-list {
+        li {
+          height: 30px;
+          line-height: 30px;
+        }
+        li.type-title {
+          padding-left: 50px;
+          font-size: 16px;
+          font-weight: bold;
+          background: url(https://www.zhcw.com/static/images/footer/yd-yq-02.png) no-repeat 10px center;
+          &.tc {
+            background: url(https://www.zhcw.com/static/images/footer/yd-yq-03.png) no-repeat 10px center;
+          }
+        }
+        li a {
+          display: block;
+          padding-left: 50px;
+          font-size: 14px;
+          color: #333;
+          &:hover {
+            color: $light-blue;
+          }
+        }
+      }
+      .right {
+        margin-left: 160px;
+      }
+    }
+    & > .right {
+      margin-left: 180px;
+      margin-bottom: 30px;
+      border: 1px solid #eee;
+
+      & > .title {
+        border-bottom: 2px solid $light-red;
+        span {
+          display: inline-block;
+          position: relative;
+          line-height: 40px;
+          height: 40px;
+          padding: 0 12px;
+          font-size: 22px;
+          color: #fff;
+          background-color: $light-red;
+
+          &:after {
+            position: absolute;
+            z-index: -1;
+            top: -40px;
+            right: -40px;
+            content: "";
+            display: block;
+            border: 40px solid $light-red;
+            border-top-color: transparent;
+            border-right-color: transparent;
+            border-left-color: transparent;
+          }
+        }
+      }
+      .period {
+        margin-top: 16px;
+        padding: 8px 16px;
+        background-color: #f4f4f4;
+        .left {
+          float: left;
+          font-size: 14px;
+          .select {
+            margin: 0 6px;
+          }
+        }
+        .right {
+          float: right;
+          font-size: 14px;
+          line-height: 32px;
+          .stop-time,
+          .open-time {
+            margin-right: 6px;
+            .time {
+              margin-left: 8px;
+              color: #666;
+            }
+          }
+        }
+      }
+      .ball-number,
+      .ball-order {
+        padding: 60px 12px 0;
+
+        & > div {
+          float: left;
+        }
+        .title {
+          font-size: 14px;
+          font-weight: bold;
+          margin-right: 70px;
+          color: #666;
+          line-height: 34px;
+        }
+        .ball-list {
+          & > div {
+            float: left;
+          }
+          .ball {
+            display: inline-block;
+            width: 34px;
+            height: 34px;
+            line-height: 34px;
+            font-size: 22px;
+            color: #fff;
+            text-align: center;
+            border-radius: 50%;
+            margin-right: 4px;
+          }
+          .ball-red {
+            background-color: #fa4e4e;
+          }
+          .ball-blue {
+            background-color: $light-blue;
+          }
+          .ball-red-list,
+          .ball-blue-list {
+            position: relative;
+            margin-right: 40px;
+            .ball-red-list-des,
+            .ball-blue-list-des {
+              position: absolute;
+              width: 100%;
+              font-size: 14px;
+              top: -30px;
+              text-align: center;
+              color: #666;
+            }
+          }
+        }
+      }
+      .ball-order {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eee;
+        .ball{
+          background-color: #fff !important;
+          color: #666 !important;
+        }
+      }
+      .bouns {
+        padding: 10px 16px;
+        line-height: 34px;
+        font-size: 14px;
+        border-bottom: 1px solid #eee;
+        color: #666;
+        & > span {
+          margin-right: 40px;
+          .item {
+            color: $light-red;
+          }
+        }
+      }
+      .detail {
+        padding: 16px;
+        font-size: 14px;
+        .table-title {
+          margin-bottom: 20px;
+          text-align: center;
+          line-height: 1.5;
+        }
+        table {
+          width: 100%;
+          text-align: center;
+          thead {
+            background-color: #f4f4f4;
+          }
+          td {
+            height: 46px;
+            vertical-align: middle;
+            border: 1px solid rgb(238, 238, 238);
+          }
+        }
+      }
+      #map-box {
+        width: 800px;
+        height: 600px;
+        margin: 30px auto;
+        border: 1px solid rgb(238, 238, 238);
+
+      }
+    }
+  }
+}

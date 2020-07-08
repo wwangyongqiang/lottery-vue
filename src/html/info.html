@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1887431_09taww4kzewq.css">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1887431_u9owpsjdpcq.css">
+</head>
+
+<body>
+  <header>
+    <div class="top-header">
+      <div class="outer-wrapper clearfix">
+        <div class="left">彩票信息</div>
+        <div class="right">
+          <form id="login-form">
+            <div class="login-form-item">
+              <a href="/html/login.html">登录</a>
+              <a href="/html/register.html">注册</a>
+            </div>
+          </form>
+          <div id="userInfo" class="dropdown">
+            <a href="javascript:void(0)" class="user-phone"></a>
+            <ul class="user-info-list dropdown-list">
+              <li class="user-lv">用户等级: <span></span></li>
+              <li class="user-role">用户类别：<span></span></li>
+              <li><a id="logoutBtn" href="javascript:void(0)">退出登录</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav>
+      <div class="outer-wrapper">
+        <ul class="clearfix">
+          <li class="nav-item"><a href="/index.html">首页</a></li>
+          <li class="nav-item"><a href="javascript:void(0)">彩种服务</a></li>
+          <li class="nav-item current"><a href="/html/info.html">开奖信息</a></li>
+          <li class="nav-item"><a href="javascript:void(0)">数据图表</a></li>
+          <li class="nav-item"><a href="javascript:void(0)">聚焦</a></li>
+          <li class="nav-item"><a href="javascript:void(0)">视频直播</a></li>
+          <li class="nav-item"><a href="javascript:void(0)">专属福利</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <div class="content">
+    <div class="content-wrapper">
+      <div class="top-banner">
+        <a href="http://www.cwl.gov.cn/ztbd/hd/2019jkpsgypds/index.shtml">
+          <img src="https://www.zhcw.com/images/guanggaoBanner/20190905/sgy1400x105.jpg" alt="">
+        </a>
+      </div>
+      <main>
+        <div class="left">
+          <ul class="type-list" id="typeList">
+            <li class="type-title fc">福利彩票</li>
+            <li><a href="javascript:void(0)">双色球</a></li>
+            <li><a href="javascript:void(0)">福彩3D</a></li>
+            <li><a href="javascript:void(0)">七乐彩</a></li>
+            <li class="type-title tc">体育彩票</li>
+            <li><a href="javascript:void(0)">超级大乐透</a></li>
+            <li><a href="javascript:void(0)">排列3</a></li>
+            <li><a href="javascript:void(0)">排列5</a></li>
+            <li><a href="javascript:void(0)">七星彩</a></li>
+            <li><a href="javascript:void(0)">胜负彩</a></li>
+          </ul>
+        </div>
+        <div class="right">
+          <div class="title"><span>双色球开奖信息</span></div>
+          <div class="prize">
+            <div class="period clearfix">
+              <div class="left">
+                第<div class="input-select select" id="selectOne"></div>期
+              </div>
+              <div class="right">
+                <span class="open-time">开奖时间: <span class="time">2020年07月02日</span></span>
+                <span class="stop-time">兑奖截止:<span class="time">将另行公告</span></span>
+                </span>
+              </div>
+            </div>
+            <div class="ball-number clearfix">
+              <div class="title">
+                中奖号码
+              </div>
+              <div class="ball-list clearfix">
+                <div class="ball-red-list">
+                  <div class="ball-list-wrapper">
+                    <span class="ball ball-red">01</span>
+                    <span class="ball ball-red">03</span>
+                    <span class="ball ball-red">11</span>
+                    <span class="ball ball-red">12</span>
+                    <span class="ball ball-red">19</span>
+                    <span class="ball ball-red">26</span>
+                  </div>
+
+                  <div class="ball-red-list-des">红球</div>
+                </div>
+                <div class="ball-blue-list">
+                  <div class="ball-list-wrapper">
+                    <span class="ball ball-blue">26</span>
+                  </div>
+
+                  <div class="ball-blue-list-des">篮球</div>
+                </div>
+              </div>
+            </div>
+            <div class="ball-order clearfix">
+              <div class="title">
+                出球顺序
+              </div>
+              <div class="ball-list clearfix">
+                <div class="ball-red-list">
+                  <div class="ball-list-wrapper">
+                    <span class="ball ball-red">11</span>
+                    <span class="ball ball-red">01</span>
+                    <span class="ball ball-red">03</span>
+                    <span class="ball ball-red">12</span>
+                    <span class="ball ball-red">26</span>
+                    <span class="ball ball-red">19</span>
+                  </div>
+
+                </div>
+                <div class="ball-blue-list">
+                  <div class="ball-list-wrapper">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="bouns">
+              <span class="bouns-total">奖池累计金额：<span class="item">958212978元</span></span>
+              <span class="bouns-current">本期销售金额：<span class="item">356052050元</span></span>
+              <span class="open-ball">本期开奖采用：<span class="item">第一套球</span></span>
+            </div>
+            <div class="detail">
+              <div class="table-title">
+                本期中奖情况
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <td>奖项</td>
+                    <td>中奖注数（注）</td>
+                    <td>单注奖金（元）</td>
+                    <td>中奖条件</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="first-prize">
+                    <td>一等奖</td>
+                    <td>18</td>
+                    <td>5569985</td>
+                    <td>中6+1</td>
+                  </tr>
+                  <tr class="second-prize">
+                    <td>二等奖</td>
+                    <td>18</td>
+                    <td>94299</td>
+                    <td>中6+0</td>
+                  </tr>
+                  <tr class="third-prize">
+                    <td>三等奖</td>
+                    <td>18</td>
+                    <td>3000</td>
+                    <td>中5+1</td>
+                  </tr>
+                  <tr class="forth-prize">
+                    <td rowspan="2">四等奖</td>
+                    <td rowspan="2">18</td>
+                    <td rowspan="2">200</td>
+                    <td>中5+0</td>
+                  </tr>
+                  <tr>
+                    <td>中4+1</td>
+                  </tr>
+                  <tr class="fifth-prize">
+                    <td rowspan="2">五等奖</td>
+                    <td rowspan="2">18</td>
+                    <td rowspan="2">10</td>
+                    <td>中4+0</td>
+                  </tr>
+                  <tr>
+                    <td>中3+1</td>
+                  </tr>
+                  <tr class="sixth-prize">
+                    <td rowspan="3">六等奖</td>
+                    <td rowspan="3">18</td>
+                    <td rowspan="3">5</td>
+                    <td>中2+1</td>
+                  </tr>
+                  <tr>
+                    <td>中1+1</td>
+                  </tr>
+                  <tr>
+                    <td>中0+1</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="map-wrapper">
+            <div id="map-box">
+
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script>
+    showData = function (data) {
+      console.log('showdata')
+      console.log(data)
+    }
+  </script>
+  <script
+    src="https://jc.zhcw.com/port/client_json.php?&callback=showData&transactionType=10001002&lotteryId=1&issue=2020058&tt=0.9630504189678522&_=1593936523768"></script>
+
+</body>
+
+</html>

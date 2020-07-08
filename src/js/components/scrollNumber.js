@@ -1,4 +1,4 @@
-import '../css/scrollNumber.scss'
+import '../../css/scrollNumber.scss'
 
 let scrollNumber = {
   numberList: null,

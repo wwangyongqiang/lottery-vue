@@ -1,5 +1,5 @@
 import utils from './utils'
-import '../css/tab.scss'
+import '../../css/tab.scss'
 
 const tab = document.querySelector('#asideTab');
 const tabBtns = tab.querySelectorAll('.tab-header a');
@@ -37,7 +37,7 @@ let preActiveIndex = -1;
 
 // tab 吸顶
 document.addEventListener('scroll', function () {
-  let scrollTop = document.documentElement.scrolltop ||document.body.scrollTop;
+  let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
   if (scrollTop > 120) {
     utils.addClass(tab, 'fixed-to-top');
   } else {
