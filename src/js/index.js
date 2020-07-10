@@ -1,14 +1,13 @@
 import '../css/reset.css'
 import '../css/index.scss'
-import { $news } from './http/news'
+import $news from './http/news'
+import $lottery from './http/lottery'
 import './components/tab'
 import dropdown from './components/dropdown'
 import Carousel from './components/carousel'
 import scrollNumber from './components/scrollNumber'
 import config from '../../user.config'
 import authentication from './authentication'
-
-
 
 // 轮播
 const carouselEle = document.querySelector('#carouselBox');
@@ -38,10 +37,71 @@ const carousel_one = new Carousel(carouselEle, data);
 carousel_one.start();
 
 // 奖池滚动
-const scrollNumberEleOne = document.querySelector('#scrollNumberOne');
-const scrollNumberEleTwo = document.querySelector('#scrollNumberTwo');
-scrollNumber.init(scrollNumberEleOne);
-scrollNumber.init(scrollNumberEleTwo);
+$lottery.query('11')
+  .then(res => {
+    const ssqEle = document.querySelector('.hot-item.ssq');
+    const dataEle = ssqEle.querySelector('.date');
+    const periodEle = ssqEle.querySelector('.period');
+    const scrollNumberEle = document.querySelector('#scrollNumberOne');
+    const redBallListEle = ssqEle.querySelectorAll('.ball.red');
+    const blueBallEle = ssqEle.querySelector('.ball.blue');
+    const linkDetailEle = ssqEle.querySelector('.link-detail');
+    
+    const data = res.data;
+    console.log(data)
+    dataEle.innerText = data.opendate.slice(5);
+    periodEle.innerText = `第${data.issueno}期`;
+    let numTarget = Number(data.totalmoney).toFixed();
+    let part1 = numTarget.slice(-4);
+    let part2 = numTarget.slice(-8, -4)
+    let part3 = numTarget.slice(0, -8);
+    let numTargetStr = part3 ? `${part3}亿${part2}万${part1}元` : `${part2}万${part1}元`;
+    scrollNumberEle.dataset.target = numTargetStr;
+    let redBall = data.number.split(' ');
+    [].forEach.call(redBallListEle, (item, index) => {
+      item.innerText = redBall[index];
+    });
+    blueBallEle.innerText = data.refernumber;
+    scrollNumber.init(scrollNumberEle);
+    linkDetailEle.setAttribute('href', `/html/info.html?caipiaoid=${data.caipiaoid}`);
+  })
+  .catch(err => {
+    console.log(err);
+  })
+
+  $lottery.query('14')
+  .then(res => {
+    const ssqEle = document.querySelector('.hot-item.dlt');
+    const dataEle = ssqEle.querySelector('.date');
+    const periodEle = ssqEle.querySelector('.period');
+    const scrollNumberEle = document.querySelector('#scrollNumberTwo');
+    const redBallListEle = ssqEle.querySelectorAll('.ball.red');
+    const blueBallListEle = ssqEle.querySelector('.ball.blue');
+    const linkDetailEle = ssqEle.querySelector('.link-detail');
+    
+    const data = res.data;
+    dataEle.innerText = data.opendate.slice(5);
+    periodEle.innerText = `第${data.issueno}期`;
+    let numTarget = Number(data.totalmoney).toFixed();
+    let part1 = numTarget.slice(-4);
+    let part2 = numTarget.slice(-8, -4)
+    let part3 = numTarget.slice(0, -8);
+    let numTargetStr = part3 ? `${part3}亿${part2}万${part1}元` : `${part2}万${part1}元`;
+    scrollNumberEle.dataset.target = numTargetStr;
+    let redBall = data.number.split(' ');
+    let blueBall = data.refernumber.split(' ');
+    [].forEach.call(redBallListEle, (item, index) => {
+      item.innerText = redBall[index];
+    });
+    [].forEach.call(blueBallListEle, (item, index) => {
+      item.innerText = blueBall[index];
+    });
+    scrollNumber.init(scrollNumberEle);
+    linkDetailEle.setAttribute('href', `/html/info.html?caipiaoid=${data.caipiaoid}`);
+  })
+  .catch(err => {
+    console.log(err);
+  })
 
 // 加载新闻
 class News {
@@ -58,7 +118,7 @@ class News {
     this.createLoading('加载中···');
     this.canLoading = false;
     $news(this.page, this.size)
-      .then(res => {     
+      .then(res => {
         if (res.data.status === '000000') {
           if (res.data.message === '成功') {
             this.canLoading = true;
@@ -74,7 +134,7 @@ class News {
             this.removeLoading();
             this.createLoading('没有了');
           }
-         
+
         } else {
           console.log('获取新闻失败');
           console.log(res.data)
@@ -108,7 +168,7 @@ class News {
     liEle.innerHTML = template;
     liEle.querySelector('a').setAttribute('href', data.link);
     liEle.querySelector('.left img').setAttribute('src', data.logoFile);
-    liEle.querySelector('.title .text').innerText = data.title;
+    liEle.querySelector('.title .text').innerText = data.shortTitle;
     liEle.querySelector('.summary').innerText = data.summary;
     liEle.querySelector('.from').innerText = `来源：${data.source}`;
     liEle.querySelector('.time .text').innerText = data.publishDate;
@@ -125,7 +185,6 @@ class News {
     const btnToTopEle = document.querySelector('#btnToTop');
 
     btnToTopEle.addEventListener('click', () => {
-      console.log(document.body.scrollTop)
       document.documentElement.style.scrollBehavior = 'smooth';
       document.body.style.scrollBehavior = 'smooth';
       document.documentElement.scrollTop = 0;
@@ -136,7 +195,7 @@ class News {
 
     window.addEventListener('scroll', () => {
 
-      const clientHeight = window.innerHeight || Math.min(document.documentElement.clientHeight,document.body.clientHeight);
+      const clientHeight = window.innerHeight || Math.min(document.documentElement.clientHeight, document.body.clientHeight);
       const scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
 
@@ -146,18 +205,18 @@ class News {
         this.update();
       }
 
-       // 回到顶部按钮
-       if (scrollTop > 2 * clientHeight) {
-          btnToTopEle.style.display = 'block';
-       } else {
-         btnToTopEle.style.display = 'none';
-       }
+      // 回到顶部按钮
+      if (scrollTop > 2 * clientHeight) {
+        btnToTopEle.style.display = 'block';
+      } else {
+        btnToTopEle.style.display = 'none';
+      }
 
 
     })
   }
 
-  createLoading (text) {
+  createLoading(text) {
     const liEle = document.createElement('li');
     liEle.className = 'news-item news-loading';
 
@@ -170,13 +229,13 @@ class News {
     this.newsListEle.appendChild(liEle);
   }
 
-  removeLoading () {
+  removeLoading() {
     const loadingEle = document.querySelector('.news .news-loading');
     if (!loadingEle) return null;
     loadingEle.remove();
   }
 
-  init () {
+  init() {
     this.update();
     this.loadMore();
   }

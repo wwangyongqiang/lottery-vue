@@ -81,7 +81,6 @@ class Authentication {
     if (data) {
       loginEle.style.display = 'none';
       infoEle.style.display = 'block';
-      console.log(data);
       phoneEle.innerText = data.phone;
       lvEle.innerText = 'lv' + data.lv;
       roleEle.innerText = data.role === '1' ? '会员' : '注册用户';
@@ -108,45 +107,3 @@ class Authentication {
 
 
 export default new Authentication()
-
-
-
-
-// validate Token
-// axios.post(config.BASE_URL + '/user/token')
-//   .then(res => {
-//     console.log('validate token');
-//     updateUserInfo();
-//   }).catch(err => {
-//     console.log('ERROR IN AXIOS TOKEN', err);
-//   })
-
-// // 获取用户信息
-// function updateUserInfo() {
-//   const userPhone = utils.docCookies.getItem('uname');
-//   const infoEle = document.querySelector('#userInfo');
-//   const loginEle = document.querySelector('#login-form');
-//   const phoneEle = infoEle.querySelector('.user-phone')
-
-//   if (userPhone) {
-//     loginEle.style.display = 'none';
-//     infoEle.style.display = 'block';
-//     phoneEle.innerText = (userPhone);
-//   } else {
-//     loginEle.style.display = 'block';
-//     infoEle.style.display = 'none';
-//     phoneEle.innerText = '';
-//   }
-// }
-
-// // 登出
-// const logoutBtn = document.querySelector('#logoutBtn');
-// logoutBtn.addEventListener('click', () => {
-//   axios.get(config.BASE_URL + '/user/logout')
-//     .then(res => {
-//       updateUserInfo();
-//     })
-//     .catch(err => {
-//       console.log('ERROR IN AXIOS LOGOUT', err)
-//     })
-// });

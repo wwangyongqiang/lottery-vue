@@ -45,20 +45,20 @@
   top: 100%;
 }
 
+/*滚动条整体*/
 .select .select-list::-webkit-scrollbar {
   width: 4px;
-  /* height: 4px; */
   background-color: #F5F5F5;
 }
 
-/*定义滚动条轨道 内阴影+圆角*/
+/*定义滚动条轨道*/
 .select .select-list::-webkit-scrollbar-track {
   box-shadow: inset 0 0 6px rgba(156, 153, 153, 0.3);
   border-radius: 10px;
   background-color: #F5F5F5;
 }
 
-/*定义滑块 内阴影+圆角*/
+/*定义滑块*/
 .select .select-list::-webkit-scrollbar-thumb {
   border-radius: 10px;
   height: 6px;
