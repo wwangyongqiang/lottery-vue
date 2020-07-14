@@ -55,7 +55,7 @@ main.validatePhone = function () {
       return 0;
     }
     // 远程验证
-    $checkPhone({phone: userPphone})
+    $checkPhone({ phone: userPphone })
       .then(res => {
         const data = res.data;
         if (data.code === 1011) {
@@ -109,7 +109,7 @@ main.validatePass = function () {
     }
   });
 
-  this.passRepeatInputEle.addEventListener('blur',  () => {
+  this.passRepeatInputEle.addEventListener('blur', () => {
     userpassRepeat = this.passRepeatInputEle.value;
     if (userpassRepeat !== userpass) {
       this.passRepeatErr = true;
@@ -125,7 +125,7 @@ main.validatePass = function () {
 };
 
 main.submit = function () {
-  
+
   this.submitBtnEle.addEventListener('click', event => {
     event.preventDefault();
     let userPhone = this.phoneInputEle.value;
@@ -133,7 +133,7 @@ main.submit = function () {
     let userPassRepeat = this.passRepeatInputEle.value;
     if (!userPhone || !userPass || !userPassRepeat) { return 0; }
     if (this.phoneErr || this.passErr || this.passRepeatErr) { return 0; }
-    
+
     $register({
       phone: userPhone,
       password: userPass,
@@ -160,10 +160,13 @@ main.init = function () {
 
 main.test = function () {
   // 是否已经登录
-    const isLogin = authentication.test();
-    if (isLogin) {
-      window.location.href = '/index.html';
-    }
+  authentication.test()
+    .then(isLogin => {
+      if (isLogin) {
+        window.location.href = '/index.html';
+      }
+    })
+
 };
 
 main.init();

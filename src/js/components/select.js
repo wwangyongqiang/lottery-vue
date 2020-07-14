@@ -19,16 +19,21 @@ class Select {
   createDom() {
 
     let template = `
-          <div class="select-window">
+          <span class="text-prefix"></span>
+          <div class="select">
+            <div class="select-window">
+            </div>
+            <div class="select-suffix">
+              <span class="iconfont icon-bottom-triangle"></span>
+            </div>
+            <ul class="select-list">
+            </ul>
           </div>
-          <div class="select-suffix">
-            <span class="iconfont icon-bottom-triangle"></span>
-          </div>
-          <ul class="select-list">
-          </ul>`;
+          <span class="text-suffix"></span>`;
 
     this.el.innerHTML = template;
-
+    this.el.querySelector('.text-prefix').innerText = this.el.dataset.prefix;
+    this.el.querySelector('.text-suffix').innerText = this.el.dataset.suffix;
     let hasCurrent = false;
     let fragment = document.createDocumentFragment();
     this.data.forEach((item, index) => {
@@ -54,13 +59,14 @@ class Select {
   eventCenter() {
     if (!this.el) return 0;
     // 先执行一次回调函数
+    const selectEle = this.el.querySelector('.select');
     this.fn.call(this.current, this.current.dataset.value, this.current.innerText);
-    this.el.addEventListener('click', event => {
+    selectEle.addEventListener('click', event => {
       // 显示隐藏
-      if (this.el.className.includes('active')) {
-        utils.removeClass(this.el, 'active');
+      if (selectEle.className.includes('active')) {
+        utils.removeClass(selectEle, 'active');
       } else {
-        utils.addClass(this.el, 'active');
+        utils.addClass(selectEle, 'active');
       }
       // 改变当前值
       let targetEle = event.target;
