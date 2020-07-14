@@ -10,7 +10,8 @@ module.exports = {
     index: './src/js/index.js',
     login: './src/js/login.js',
     register: './src/js/register.js',
-    info: './src/js/info.js'
+    info: './src/js/info.js',
+    chart: './src/js/chart.js',
   },
   output: {
     filename: 'js/[name].bundle.js',
@@ -90,7 +91,9 @@ module.exports = {
         use: {
           loader: "babel-loader",
           options: {
-            presets: ["@babel/preset-env"]
+            presets: [
+              "@babel/preset-env",
+            ],
           }
         }
       }
@@ -122,6 +125,11 @@ module.exports = {
       template: './src/html/info.html',
       filename: './html/info.html',
       chunks: ['info', 'commons']
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/html/chart.html',
+      filename: './html/chart.html',
+      chunks: ['chart', 'commons']
     }),
   ],
 };

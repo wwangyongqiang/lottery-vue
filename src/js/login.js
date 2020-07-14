@@ -126,7 +126,7 @@ class Main {
 
       // const userPassHashed = CryptoJS.SHA256(userPass);
       // console.log(userPassHashed);
-      $login({
+      authentication.login({
         phone: userPhone,
         password: userPass,
       })
@@ -138,7 +138,6 @@ class Main {
             this.setMessage(passErrEle, this.passErrMsg);
           }
           if (data.code === 1000) {
-            authentication.login(data.data);
             let fromUrl = document.referrer;
             fromUrl = fromUrl || '/index.html';
             if (fromUrl.includes('login.html')) {
@@ -153,11 +152,13 @@ class Main {
   }
 
   // 是否已经登录
-  test () {
-    const isLogin = authentication.test();
-    if (isLogin) {
-      window.location.href = '/index.html';
-    }
+  test() {
+    authentication.test()
+      .then(isLogin => {
+        if (isLogin) {
+          window.location.href = '/index.html';
+        }
+      })
   }
 };
 

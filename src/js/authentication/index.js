@@ -1,9 +1,9 @@
 
 import utils from '../components/utils'
-import { $getUserInfo } from '../http/user'
+import { $getUserInfo, $login } from '../http/user'
 
 class Authentication {
-  constructor() { }
+  constructor() {}
 
   getUserInfoFromLocal() {
     const userInfoFromLocalStorage = localStorage.getItem('userInfo');
@@ -37,35 +37,45 @@ class Authentication {
   }
 
   test() {
-    const token = localStorage.getItem('token');
-    if (!token) { // 没有注册过的
-      return false;
-    } else {
-      const hasValidated = utils.docCookies.getItem('flag');
-      if (!hasValidated) { // 留有token但是没有验证过
-        this.getUserInfoFromServer()
-          .then(res => {
-            if (res.data.code === 10000) { // token有效
-              let data = res.data.data;
-              this.save(data);
-              return true;
-            } else if (res.data.code === 20000) { // token过期
-              this.clear();
-              return false;
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          })
-      } else { // 有token并且验证过
-        return true;
+    return new Promise((resolve, reject) => {
+      const token = localStorage.getItem('token');
+      if (!token) { // 没有注册过的
+        console.log('no token');
+        resolve(false);
+      } else {
+        const hasValidated = utils.docCookies.getItem('flag');
+        if (!hasValidated) { // 留有token但是没有验证过
+          console.log('token not validate');
+          this.getUserInfoFromServer()
+            .then(res => {
+              if (res.data.code === 10000) { // token有效
+                console.log('token validate success');
+                let data = res.data.data;
+                this.save(data);
+                resolve(true);
+              } else if (res.data.code === 20000) { // token过期
+                console.log('token validate fail');
+                this.clear();
+                resolve(false);
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            })
+        } else { // 有token并且验证过
+          console.log('token validate')
+          resolve(true);
+        }
       }
-    }
+    })
   }
 
   init () {
-    this.test();
-    this.updateViewOfUserInfo();
+    console.log('======console from authentication======')
+    this.test()
+    .then(result => {
+      this.updateViewOfUserInfo();
+    })
   }
 
   // 刷新页面更新用户信息
@@ -94,7 +104,13 @@ class Authentication {
   }
 
   login (data) {
-    this.save(data);
+    return $login(data)
+    .then(res => {
+      if(res.data.code === 1000) {
+        this.save(res.data.data);
+      }
+      return Promise.resolve(res);
+    })
   }
 
   logout () {
@@ -103,7 +119,5 @@ class Authentication {
     this.updateViewOfUserInfo();
   }
 }
-
-
 
 export default new Authentication()

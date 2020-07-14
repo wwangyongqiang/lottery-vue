@@ -1,0 +1,66 @@
+$light-blue: #409eff;
+$light-red: #f33636;
+$shadow-bottom: 0 1px 3px rgba(26, 26, 26, 0.1);
+html {
+  scroll-behavior: "smooth";
+}
+
+.top-header {
+  height: 30px;
+  line-height: 30px;
+  background-color: #f0f0f0;
+
+  .left {
+    float: left;
+  }
+  .right {
+    float: right;
+    .login-form {
+      display: none;
+      height: 30px;
+      line-height: 30px;
+    }
+    #userInfo {
+      display: none;
+      .user-phone {
+        height: 100%;
+        color: #333;
+      }
+    }
+  }
+}
+
+nav {
+  font-size: 15px;
+  background-color: #fff;
+  box-shadow: $shadow-bottom;
+  .nav-item {
+    float: left;
+    margin-right: 20px;
+    a {
+      display: block;
+      position: relative;
+      height: 50px;
+      width: 100px;
+      text-align: center;
+      line-height: 50px;
+      &::after {
+        position: absolute;
+        content: "";
+        height: 2px;
+        width: 0;
+        left: 50%;
+        bottom: 0;
+        transition: all 0.3s;
+      }
+      &:hover::after {
+        background-color: $light-blue;
+        width: 100%;
+        left: 0;
+      }
+    }
+    &.current a {
+      color: $light-blue;
+    }
+  }
+}

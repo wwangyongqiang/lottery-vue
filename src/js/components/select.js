@@ -38,7 +38,7 @@ class Select {
       liEle.innerText = item.text;
       if (item.current) {
         hasCurrent = true;
-        this.setCurrent(item);
+        this.setCurrent(liEle);
       }
       fragment.appendChild(liEle);
     });
@@ -81,6 +81,12 @@ class Select {
     this.currentValue = this.current.dataset.value;
     // 改变显示
     this.el.querySelector('.select-window').innerText = this.currentText;
+  }
+
+  update (data) {
+    this.data = data;
+    this.el.innerHTML = '';
+    this.createDom();
   }
 }
 

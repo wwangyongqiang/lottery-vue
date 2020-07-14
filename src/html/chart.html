@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1887431_u9owpsjdpcq.css">
+</head>
+
+<body>
+  <header>
+    <div class="top-header">
+      <div class="outer-wrapper clearfix">
+        <div class="left">彩票信息</div>
+        <div class="right">
+          <form id="login-form">
+            <div class="login-form-item">
+              <a href="/html/login.html">登录</a>
+              <a href="/html/register.html">注册</a>
+            </div>
+          </form>
+          <div id="userInfo" class="dropdown">
+            <a href="javascript:void(0)" class="user-phone"></a>
+            <ul class="user-info-list dropdown-list">
+              <li class="user-lv">用户等级: <span></span></li>
+              <li class="user-role">用户类别：<span></span></li>
+              <li><a id="logoutBtn" href="javascript:void(0)">退出登录</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav>
+      <div class="outer-wrapper">
+        <ul class="clearfix">
+          <li class="nav-item"><a href="/index.html">首页</a></li>
+          <li class="nav-item"><a href="javascript:void(0)">彩种服务</a></li>
+          <li class="nav-item"><a href="/html/info.html">开奖信息</a></li>
+          <li class="nav-item current"><a href="javascript:void(0)">数据图表</a></li>
+          <li class="nav-item"><a href="javascript:void(0)">聚焦</a></li>
+          <li class="nav-item"><a href="javascript:void(0)">视频直播</a></li>
+          <li class="nav-item"><a href="javascript:void(0)">专属福利</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <div class="content">
+    <div class="content-wrapper">
+      <div class="type-select clearfix">
+        <div class="content-select-wrapper">
+          <span>图表内容</span><div class="content-select select" id="content-select"></div>
+        </div>
+        <div class="lottery-select-wrapper">
+          <span>彩种选择</span><div class="lottery-select select" id="lottery-select"></div>
+        </div>
+        <div class="issueno-select-wrapper">
+          <span>期数</span><div class="issueno-select select" id="issueno-select"></div>
+        </div>
+      </div>
+      <div class="chart-wrapper">
+        <div id="chart-box"></div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

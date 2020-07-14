@@ -1,0 +1,42 @@
+.content {
+  .content-wrapper {
+    width: 1200px;
+    margin: 0 auto;
+  }
+  .type-select {
+    font-size: 14px;
+    padding: 20px 0;
+    .select {
+      margin: 0 12px;
+    }
+    .content-select-wrapper {
+      float: left;
+      & .select-window {
+        width: 90px !important;
+      }
+    }
+    .lottery-select-wrapper {
+      float: left;
+      margin-left: 60px;
+      & .select-window {
+        width: 90px !important;
+      }
+    }
+    .issueno-select-wrapper {
+      float: left;
+      margin-left: 60px;
+    }
+    & .select-window {
+      width: 50px !important;
+    }
+  }
+  .chart-wrapper {
+    margin-top: 100px;
+    #chart-box {
+      margin: 0 auto;
+      width: 800px;
+      height: 600px;
+      border: 1px solid rgb(238, 238, 238);
+    }
+  }
+}

@@ -153,8 +153,6 @@ let page = {
     function updateTable(ele, data) {
       let arr = Array.from(ele);
       arr.forEach((item, index) => {
-        console.log('render table')
-        console.log(data[index])
         item.querySelector('.prize-num').innerText = data[index].num;
         item.querySelector('.single-bonus').innerText = formatMoney(data[index].singlebonus);
       });

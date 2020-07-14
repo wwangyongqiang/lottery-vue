@@ -19,9 +19,21 @@ export default {
       issueno
     })
   },
+  /**
+   * 获取指定彩票的期数数据
+   * @param {string|number} caipiaoid 彩票id
+   */
   issueno (caipiaoid) {
     return $.get('/issueno', {
       caipiaoid
+    })
+  },
+
+  chart (caipiaoid, chartcontent, issuenonum) {
+    return $.get('/chart', {
+      caipiaoid,
+      chartcontent,
+      issuenonum,
     })
   }
 }
