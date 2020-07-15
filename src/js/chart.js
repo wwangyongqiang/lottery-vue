@@ -7,12 +7,13 @@ import { nameToId } from '../js/data/id'
 import $lottery from '../js/http/lottery'
 import echarts from 'echarts'
 import utils from './components/utils'
+import chartOptions from './chart_option'
 
 let page = {
   caipiaoid: 0,
   issuenoNum: 0,
   chartContent: '',
-  chart: null,
+  myChart: null,
   init() {
     this.initSelect();
   },
@@ -92,63 +93,32 @@ let page = {
     if (this.caipiaoid && this.chartContent && this.issuenoNum) {
       $lottery.chart(this.caipiaoid, this.chartContent, this.issuenoNum)
         .then(res => {
-          this.renderChart(res.data.data);
+          this.renderChart(res.data.result);
         })
         .catch(err => { });
     }
-
   },
 
   renderChart(userData) {
-    const chartEle = document.querySelector('#chart-box');
-    const myChart = echarts.init(chartEle);
-    const saleamoountData = userData.map(item => Number(item.bigprizenum));
-    const issuenoData = userData.map(item => item.issueno);
-    // 绘制图表
-    let option = {
-      title: {
-        text: '图表'
-      },
-      xAxis: {
-        type: 'category',
-        data: issuenoData
-      },
-      yAxis: {
-        type: 'value',
-        axisLabel: {
-          formatter (value) {
-            return utils.formatMoney(value);
-          }
-        },
-        // min: function (value) {
-        //   return value.min;
-        // },
-      },
-      tooltip: {
-        trigger: 'axis',
-        padding: 16, 
-        formatter(params) {
-          let data = params[0];
-          return `第${data.axisValue}期<br><br>${data.seriesName}：${utils.formatMoney(data.value)}`;
-        },
+    
+    if (!this.myChart) {
+      const chartEle = document.querySelector('#chart-box');
+      this.myChart = echarts.init(chartEle);
+    }
+    console.log(userData)
+    const xAxisData = userData.data.xAxisData;
+    const yAxisData = userData.data.yAxisData;
+    let type = userData.type;
+    console.log(type)
+    let userOption = chartOptions[type];
+    console.log(userOption)
+    userOption.title.text = userData.title;
+    userOption.xAxis.data = xAxisData;
+    userOption.series[0].data = yAxisData;
+    
 
-      },
-      series: [{
-        name: '销售额',
-        type: 'line',
-        data: saleamoountData,
-        markLine: {
-          data: [{
-            type: 'average',
-            name: '平均值'
-          }],
-        },
-
-      }]
-    };
-    myChart.setOption(option);
+    this.myChart.setOption(userOption);
   }
-
 };
 
 page.init();

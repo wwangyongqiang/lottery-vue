@@ -32,8 +32,8 @@ class Select {
           <span class="text-suffix"></span>`;
 
     this.el.innerHTML = template;
-    this.el.querySelector('.text-prefix').innerText = this.el.dataset.prefix;
-    this.el.querySelector('.text-suffix').innerText = this.el.dataset.suffix;
+    this.el.querySelector('.text-prefix').innerText = this.el.dataset.prefix || '';
+    this.el.querySelector('.text-suffix').innerText = this.el.dataset.suffix || '';
     let hasCurrent = false;
     let fragment = document.createDocumentFragment();
     this.data.forEach((item, index) => {

@@ -45,7 +45,6 @@ export default {
       ],
       color: ['#85daef', '#f33636', '#e6ac53', '#9fb5ea']
     },
-
     //配置属性
     series: [{
       name: '一等奖注数',
@@ -57,7 +56,6 @@ export default {
         min: 1,
         max: 2
       },
-
       label: {
         normal: {
           show: false  //省份名称  

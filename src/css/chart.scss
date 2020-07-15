@@ -1,9 +1,10 @@
 .content {
   .content-wrapper {
-    width: 1200px;
     margin: 0 auto;
   }
   .type-select {
+    width: 1200px;
+    margin: 0 auto;
     font-size: 14px;
     padding: 20px 0;
     .select {
@@ -33,9 +34,10 @@
   .chart-wrapper {
     margin-top: 100px;
     #chart-box {
-      margin: 0 auto;
-      width: 800px;
+      margin: 0 auto 40px;
+      width: 90%;
       height: 600px;
+      box-sizing: border-box;
       border: 1px solid rgb(238, 238, 238);
     }
   }
