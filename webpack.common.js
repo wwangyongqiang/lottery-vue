@@ -12,6 +12,7 @@ module.exports = {
     register: './src/js/register.js',
     info: './src/js/info.js',
     chart: './src/js/chart.js',
+    history: './src/js/history.js'
   },
   output: {
     filename: 'js/[name].bundle.js',
@@ -130,6 +131,11 @@ module.exports = {
       template: './src/html/chart.html',
       filename: './html/chart.html',
       chunks: ['chart', 'commons']
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/html/history.html',
+      filename: './html/history.html',
+      chunks: ['history', 'commons']
     }),
   ],
 };

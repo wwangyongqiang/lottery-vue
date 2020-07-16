@@ -20,6 +20,11 @@ const saleamount = {
       }
     },
   },
+  legend: {
+    data: ['销售额'],
+    right: 30,
+    top: 20
+  },
   dataZoom: [
     {
       type: 'slider'
@@ -61,6 +66,11 @@ const totalmoney = {
     left: 'center',
     top: '10px'
   },
+  legend: {
+    data: ['奖池奖金'],
+    right: 30,
+    top: 20
+  },
   xAxis: {
     name: '期数',
     type: 'category',
@@ -95,6 +105,17 @@ const totalmoney = {
     name: '奖池奖金',
     type: 'line',
     data: [],
+    markLine: {
+      label: {
+        formatter: params => utils.formatMoney(params.value),
+      },
+      data: [
+        {
+          name: '最大值',
+          type: 'max'
+        },
+      ],
+    },
   }]
 };
 
@@ -103,6 +124,11 @@ const bigprizenum = {
     text: '一等奖注数',
     left: 'center',
     top: '10px'
+  },
+  legend: {
+    data: ['一等奖注数'],
+    right: 30,
+    top: 20
   },
   xAxis: {
     name: '期数',
@@ -138,6 +164,17 @@ const bigprizenum = {
     name: '一等奖注数',
     type: 'line',
     data: [],
+    markLine: {
+      label: {
+        formatter: '{c}注',
+      },
+      data: [
+        {
+          name: '最大值',
+          type: 'max'
+        },
+      ],
+    },
   }]
 };
 

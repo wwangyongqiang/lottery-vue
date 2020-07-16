@@ -125,26 +125,19 @@ obj.docCookies = {
 };
 
 obj.formatMoney =  function (value) {
-
   let str = '';
   if ((typeof value).toLowerCase() === 'number') {
     str = value.toFixed(0);
   } else if ((typeof value).toLowerCase() === 'string' && !isNaN(Number(value))) {
-    str = Number(str).toFixed(0);
+    str = Number(value).toFixed(0);
   } else {
     throw 'utils formatMoney 参数需要是数字或字符串形式的数字'
   }
-
-  
   let part1 = str.slice(-4);
   let part2 = str.slice(-8, -4);
   let part3 = str.slice(0, -8);
   function format(str) {
-    if (str === '0000') {
-      return '';
-    } else {
-      return str;
-    }
+    return str.replace(/^0*/, '');
   }
   part1 = format(part1);
   part2 = format(part2);

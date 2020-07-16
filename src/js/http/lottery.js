@@ -35,5 +35,12 @@ export default {
       chartcontent,
       issuenonum,
     })
+  },
+
+  history (caipiaoid, num) {
+    return $.get('/history', {
+      caipiaoid,
+      num
+    })
   }
 }

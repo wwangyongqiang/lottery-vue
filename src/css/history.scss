@@ -1,0 +1,87 @@
+$light-blue: #409eff;
+$light-red: #f33636;
+
+.content-wrapper {
+  margin: 0 auto;
+  width: 1200px;
+
+  .top-ad {
+    margin-top: 10px;
+    a {
+      display: block;
+      img {
+        width: 100%;
+      }
+    }
+  }
+
+  .lottery-history-wrapper {
+    .lottery-select-wrapper {
+      border-top: 1px solid #f33636;
+      background-color: #f4f4f4;
+      line-height: 100px;
+      height: 100px;
+      #lottery-select {
+        display: inline-block;
+        margin-left: 40px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 14px;
+        .select-window {
+          width: 84px;
+        }
+      }
+      .open-weekday {
+        display: inline-block;
+        margin-left: 20px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 13px;
+        color: #999;
+      }
+    }
+    .lottery-table-wrapper {
+      table {
+        width: 100%;
+        margin-top: 10px;
+        th, td {
+          height: 46px;
+          vertical-align: middle;
+          text-align: center;
+          border: 1px solid rgb(238, 238, 238);
+        }
+        thead {
+          color: #909399;
+          th {
+            background: #f5f7fa;
+          }
+        }
+        tbody {
+          tr:nth-child(2n+1) {
+            background-color: #fff;
+          }
+          tr:nth-child(2n) {
+            background-color: #fafafa;
+          }
+          .ball {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            border-radius: 50%;
+            text-align: center;
+            color: #fff;
+            margin: 8px;
+            background-color: $light-red;
+            &.ball-red {
+              background-color: $light-red;
+            }
+            &.ball-blue {
+              background-color: $light-blue;
+            }
+          }
+        }
+      }
+    }
+  }
+}

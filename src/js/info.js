@@ -6,6 +6,7 @@ import map from './map'
 import authentication from './authentication'
 import { idToName, nameToId } from './data/id'
 import $lottery from './http/lottery'
+import utils from './components/utils'
 
 
 let page = {
@@ -96,6 +97,10 @@ let page = {
     const bounsCurrent = document.querySelector('.bouns .bouns-current .item');
     const bounsTotal = document.querySelector('.bouns .bouns-total .item');
     const openBall = document.querySelector('.bouns .open-ball .item');
+    const lotteryTitle = document.querySelector('.right .lottery-title span');
+
+    let lotteryName = idToName[data.caipiaoid];
+    lotteryTitle.innerText = `${lotteryName}开奖信息`;
 
     openTime.innerText = data.opendate;
     stopTime.innerText = data.deadline || '另行通知';
@@ -112,33 +117,12 @@ let page = {
         ele.appendChild(li);
       });
     }
-    function formatMoney (money) {
-      if (isNaN(Number(money))) {
-        return '0元';
-      }
-      money = Number(money).toFixed(0);
-      let part1 = money.slice(-4);
-      if (Number(part1) === 0) {
-        part1 = '';
-      }
-      let part2 = money.slice(-8, -4);
-      let part3 = money.slice(0, -8);
-      if (part3) {
-        return `${part3}亿${part2}万${part1}元`;
-      } else if (part2) {
-        return `${part2}万${part1}元`;
-      } else if (part1) {
-        return `${part1}元`;
-      } else {
-        return '0元';
-      }
-    }
     createBall(redBallList, data.number, 'red');
     createBall(blueBallList, data.refernumber, 'blue');
     createBall(redBallOrder, data.number, 'red');
     createBall(blueBallOrder, data.refernumber, 'blue');
-    bounsTotal.innerText = formatMoney(data.totalmoney);
-    bounsCurrent.innerText = formatMoney(data.saleamount);
+    bounsTotal.innerText = utils.formatMoney(data.totalmoney);
+    bounsCurrent.innerText = utils.formatMoney(data.saleamount);
 
     let table = null;
     if (data.caipiaoid === '11') {
@@ -154,7 +138,7 @@ let page = {
       let arr = Array.from(ele);
       arr.forEach((item, index) => {
         item.querySelector('.prize-num').innerText = data[index].num;
-        item.querySelector('.single-bonus').innerText = formatMoney(data[index].singlebonus);
+        item.querySelector('.single-bonus').innerText = utils.formatMoney(data[index].singlebonus);
       });
     }
     updateTable(trList, data.prize);
