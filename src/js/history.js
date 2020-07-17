@@ -6,12 +6,14 @@ import $lottery from './http/lottery'
 
 import Select from './components/select'
 import utils from './components/utils'
+import Pagination from './components/pagination'
 
 const page = {
   init () {
     this.initSelect();
     // this.createTrDom();
     this.getData();
+    this.initPagination();
   },
   initSelect () {
     const selectEle = document.querySelector('#lottery-select');
@@ -133,7 +135,11 @@ const page = {
     .then(res => {
       this.createTable(res.data.data);
     })
-  }
+  },
+  initPagination () {
+    const pageWrapperEle = document.querySelector('#pagination-wrapper');
+    const page = new Pagination(pageWrapperEle, 100, 10);
+  },
 
 };
 
