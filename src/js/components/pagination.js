@@ -1,13 +1,13 @@
 import '../../css/pagination.scss'
 
 class Pagination {
-  constructor(el, total, size) {
+  constructor(el, total, size, fn) {
     this.el = el;
     this.total = total;
     this.size = size;
+    this.fn = fn;
     this.count = Math.ceil(this.total / this.size);
     this.currentPage = 0;
-    this.current = 0;
     this.pageEle = null;
     this.pageItemEle = null;
     this.prePageEle = null;
@@ -61,6 +61,7 @@ class Pagination {
         this.pageEle.appendChild(liEle);
       }
     }
+    this.el.innerHTML = '';
     this.el.appendChild(boxEle);
   }
 
@@ -73,9 +74,11 @@ class Pagination {
     }
 
     num = Number(num);
+    if (this.currentPage === num) {
+      return;
+    }
+
     this.currentPage = num;
-
-
     // 渲染page
     if (num >= 4 && num < this.count - 4 + 1) {
       let start = num - 4 + 1;
@@ -118,18 +121,20 @@ class Pagination {
       this.prePageEle.className = 'item-pre-page disable';
       this.nextPageEle.className = 'item-next-page';
     } else if (num === this.count) {
-      console.log(222)
       this.nextPageEle.className = 'item-next-page disable';
       this.prePageEle.className = 'item-pre-page';
     } else {
       this.nextPageEle.className = 'item-next-page';
       this.prePageEle.className = 'item-pre-page';
     }
+
+    // 回调函数
+    this.fn.call(this, this.currentPage, this.size);
   }
 
   eventCenter () {
-    const boxEle = this.el.querySelector('.pagination-box');
-    boxEle.addEventListener('click', event => {
+    // const boxEle = this.el.querySelector('.pagination-box');
+    this.el.addEventListener('click', event => {
       // 点击页码
       if (event.target.className.includes('item-page')) {
         this.updatePage(event.target.innerText);
@@ -144,6 +149,22 @@ class Pagination {
       }
     });
   }
+  reset (total, size) {
+    this.total = total;
+    this.size = size || this.size;
+    this.count = Math.ceil(this.total / this.size);
+    this.currentPage = 0;
+    this.pageEle = null;
+    this.pageItemEle = null;
+    this.prePageEle = null;
+    this.nextPageEle = null;
+  }
+  update (total, size) {
+    this.reset(total, size);
+    this.createDom();
+    this.updatePage(1);
+    }
+
 }
 
 export default Pagination;

@@ -1,11 +1,11 @@
 import instance from './index'
 const prefix = '/lottery'
 
-const $  = {
-  post (url, data) {
+const $ = {
+  post(url, data) {
     return instance.post(`${prefix}${url}`, data);
   },
-  get (url, params) {
+  get(url, params) {
     return instance.get(`${prefix}${url}`, {
       params
     });
@@ -13,7 +13,7 @@ const $  = {
 };
 
 export default {
-  query (caipiaoid, issueno) {
+  query(caipiaoid, issueno) {
     return $.get('/query', {
       caipiaoid,
       issueno
@@ -23,13 +23,13 @@ export default {
    * 获取指定彩票的期数数据
    * @param {string|number} caipiaoid 彩票id
    */
-  issueno (caipiaoid) {
+  issueno(caipiaoid) {
     return $.get('/issueno', {
       caipiaoid
     })
   },
 
-  chart (caipiaoid, chartcontent, issuenonum) {
+  chart(caipiaoid, chartcontent, issuenonum) {
     return $.get('/chart', {
       caipiaoid,
       chartcontent,
@@ -37,10 +37,23 @@ export default {
     })
   },
 
-  history (caipiaoid, num) {
-    return $.get('/history', {
-      caipiaoid,
-      num
+  history(caipiaoid, num, page) {
+    if (page) {
+      return $.get('/history', {
+        caipiaoid,
+        num,
+        page
+      })
+    } else {
+      return $.get('/history', {
+        caipiaoid,
+        num
+      })
+    }
+  },
+  count(caipiaoid) {
+    return $.get('/count', {
+      caipiaoid
     })
   }
 }

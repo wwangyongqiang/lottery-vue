@@ -12,16 +12,21 @@ var obj = {};
 obj.classNameToArr = function (className) {
   if (!className) return [];
   var classNameArr = [];
-  if (typeof className === 'string') {
-    className = className.replace(/\s{2,}/g, ' ');
-    classNameArr = className.trim().split(' ');
-  } else if (className instanceof Array) {
-    classNameArr = className.map(function (item) {
-      return item.trim();
-    });
-  } else {
-    throw 'utils classNameToArr 方法 className 参数需要是字符串或数组';
+  try {
+    if (typeof className === 'string') {
+      className = className.replace(/\s{2,}/g, ' ');
+      classNameArr = className.trim().split(' ');
+    } else if (className instanceof Array) {
+      classNameArr = className.map(function (item) {
+        return item.trim();
+      });
+    } else {
+      throw new TypeError('utils classNameToArr 方法 className 参数需要是字符串或数组');
+    }
+  } catch (err) {
+    console.error(err);
   }
+
   return classNameArr;
 };
 /**
@@ -30,8 +35,12 @@ obj.classNameToArr = function (className) {
  * @param { string } className 需要添加的类名
  */
 obj.addClass = function (target, className) {
-  if (!target) throw 'utils addClass 方法需要target参数';
-  if (!className) throw 'utils addClass 方法需要className参数';
+  try {
+    if (!target) throw new TypeError('utils addClass target参数不能为空');
+    if (!className) throw new TypeError('utils addClass classname参数不能为空');
+  } catch (err) {
+    console.error(err);
+  }
 
   var classNameArr = this.classNameToArr(className);
   var oldClassArr = this.classNameToArr(target.getAttribute('class'));
@@ -50,8 +59,12 @@ obj.addClass = function (target, className) {
  * @param { String | Array[string] } className 
  */
 obj.removeClass = function (target, className) {
-  if (!target) throw 'utils addClass 方法需要target参数';
-  if (!className) throw 'utils addClass 方法需要className参数';
+  try {
+    if (!target) throw new TypeError('utils removeClass target参数不能为空');
+    if (!className) throw new TypeError('utils removeClass classname参数不能为空');
+  } catch (err) {
+    console.error(err);
+  }
 
   // className 转换成 数组
   var classNameArr = this.classNameToArr(className);
@@ -73,7 +86,11 @@ obj.removeClass = function (target, className) {
  * @return { Function } 包装后的函数
  */
 obj.throttle = function (func, wait) {
-  if (typeof func !== 'function') throw ('throttle func 参数必须是函数');
+  try {
+    if (typeof func !== 'function') throw new TypeError('throttle func 参数必须是函数');
+  } catch (err) {
+    console.error(err);
+  }
   if (!wait) wait = 1000;
   var previous = 0;
   return function () {
@@ -124,14 +141,22 @@ obj.docCookies = {
   }
 };
 
-obj.formatMoney =  function (value) {
+obj.formatMoney = function (value) {
   let str = '';
-  if ((typeof value).toLowerCase() === 'number') {
-    str = value.toFixed(0);
-  } else if ((typeof value).toLowerCase() === 'string' && !isNaN(Number(value))) {
-    str = Number(value).toFixed(0);
-  } else {
-    throw 'utils formatMoney 参数需要是数字或字符串形式的数字'
+  try {
+    if ((typeof value).toLowerCase() === 'number') {
+      str = value.toFixed(0);
+    } else if ((typeof value).toLowerCase() === 'string' && !isNaN(Number(value))) {
+      str = Number(value).toFixed(0);
+    } else {
+      throw new TypeError('Utils formatMoney 参数必须是 string|number');
+    }
+  } catch (err) {
+    console.error(err);
+  }
+
+  if (value.length < 5) {
+    return `${value}元`
   }
   let part1 = str.slice(-4);
   let part2 = str.slice(-8, -4);

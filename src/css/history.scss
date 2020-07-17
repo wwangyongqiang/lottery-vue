@@ -52,6 +52,10 @@ $light-red: #f33636;
         }
         thead {
           color: #909399;
+          display: none;
+          &.active {
+            display: table-header-group;
+          }
           th {
             background: #f5f7fa;
           }

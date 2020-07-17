@@ -58,7 +58,6 @@ class Select {
     this.el.querySelector('.select-list').appendChild(fragment);
     let currentEle = this.el.querySelector('li.current');
     let ulEle = this.el.querySelector('.select-list');
-    console.log(ulEle.clientHeight)
   }
 
   eventCenter() {
@@ -76,9 +75,6 @@ class Select {
       }
       // 调整选中项的位置
       const currentEle = selectEle.querySelector('li.current');
-      console.log(currentEle.offsetTop);
-      console.log(ulEle.scrollTop);
-      console.log(ulEle.clientHeight)
       if (currentEle.offsetTop - ulEle.scrollTop > ulEle.clientHeight) {
         ulEle.scrollTop = currentEle.offsetTop - 50;
       }
