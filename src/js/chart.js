@@ -6,8 +6,8 @@ import Select from '../js/components/select'
 import { nameToId } from '../js/data/id'
 import $lottery from '../js/http/lottery'
 import echarts from 'echarts'
-import utils from './components/utils'
 import chartOptions from './chart_option'
+import authentication from './authentication'
 
 let page = {
   caipiaoid: 0,
@@ -16,6 +16,7 @@ let page = {
   myChart: null,
   init() {
     this.initSelect();
+    this.initUser();
   },
 
   initSelect() {
@@ -118,7 +119,17 @@ let page = {
     
 
     this.myChart.setOption(userOption);
-  }
+  },
+
+  initUser() {
+    // 显示用户信息
+    authentication.init();
+    // 登出
+    const logoutBtn = document.querySelector('#logoutBtn');
+    logoutBtn.addEventListener('click', () => {
+      authentication.logout();
+    });
+  },
 };
 
 page.init();

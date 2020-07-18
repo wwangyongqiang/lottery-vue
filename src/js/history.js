@@ -7,13 +7,15 @@ import $lottery from './http/lottery'
 import Select from './components/select'
 import utils from './components/utils'
 import Pagination from './components/pagination'
+import authentication from './authentication'
 
 const page = {
   caipiaoid: 11,
   pagination: null,
-  size: 100,
+  size: 10,
   init() {
     this.initSelect();
+    this.initUser();
     // this.createTrDom();
     // this.getData();
     // this.initPagination();
@@ -236,6 +238,15 @@ const page = {
         .catch(err => { })
     };
     this.pagination = new Pagination(pageWrapperEle, total, size, cb);
+  },
+  initUser() {
+    // 显示用户信息
+    authentication.init();
+    // 登出
+    const logoutBtn = document.querySelector('#logoutBtn');
+    logoutBtn.addEventListener('click', () => {
+      authentication.logout();
+    });
   },
 };
 

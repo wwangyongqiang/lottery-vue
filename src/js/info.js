@@ -1,6 +1,5 @@
 import '../css/info.scss'
 import '../css/reset.css'
-import dropdown from './components/dropdown'
 import Select from './components/select'
 import map from './map'
 import authentication from './authentication'
@@ -165,17 +164,3 @@ let page = {
 };
 
 page.start();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
