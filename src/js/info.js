@@ -14,19 +14,16 @@ let page = {
   issueno: 0,
   getQueryFromUrl() {
     let searchStr = location.search;
-    console.log(searchStr)
+    const queryObj = {};
     if (searchStr) {
-      const queryObj = {};
       searchStr.slice(1).split('&').forEach(item => {
         let arr = item.split('=');
         queryObj[decodeURIComponent(arr[0])] = decodeURIComponent(arr[1]);
       });
       this.caipiaoid = queryObj.caipiaoid || this.caipiaoid;
       this.issueno = queryObj.issueno || this.issueno;
-      return queryObj;
-    } else {
-      return null;
     }
+    return queryObj;
   },
   initUser() {
     // 显示用户信息

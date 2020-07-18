@@ -68,7 +68,7 @@ export default {
     }]
   },
   init(ele, data) {
-    if (!ele) return null;
+    if (!ele) return;
     this.options.series[0].data = data;
     const myChart = echarts.init(ele);
     myChart.setOption(this.options);

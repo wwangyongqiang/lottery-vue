@@ -65,7 +65,7 @@ class Pagination {
     this.el.appendChild(boxEle);
   }
 
-  updatePage (num) {
+  updatePage(num) {
     if (!this.pageEle) {
       this.pageEle = this.el.querySelector('ul.page');
     }
@@ -80,34 +80,46 @@ class Pagination {
 
     this.currentPage = num;
     // 渲染page
-    if (num >= 4 && num < this.count - 4 + 1) {
-      let start = num - 4 + 1;
-       this.pageItemEle.forEach((item, index) => {
-        item.innerText = start + index;
-        if (index === 3) {
-          item.className = 'item-page current';
-        } else {
-          item.className = 'item-page';
-        }
-      });
-    } else if (num < 4) {
+
+    if (this.count <= 7) {
       let start = 1;
-       this.pageItemEle.forEach((item, index) => {
-       item.innerText = index + start;
-       item.className = 'item-page';
-       if (index + 1 === num) {
-         item.className = 'item-page current';
-       }
-      });
-    } else {
-      let start = this.count - 7 + 1;
-       this.pageItemEle.forEach((item, index) => {
+      this.pageItemEle.forEach((item, index) => {
         item.innerText = index + start;
         item.className = 'item-page';
-        if (7 - 1 -index === this.count - num) {
+        if (index + 1 === num) {
           item.className = 'item-page current';
         }
-       });
+      });
+    } else {
+      if (num <= 4) {
+        let start = 1;
+        this.pageItemEle.forEach((item, index) => {
+          item.innerText = index + start;
+          item.className = 'item-page';
+          if (index + 1 === num) {
+            item.className = 'item-page current';
+          }
+        });
+      } else if (num > 4 && num < this.count - 4 + 1) {
+        let start = num - 4 + 1;
+        this.pageItemEle.forEach((item, index) => {
+          item.innerText = start + index;
+          if (index === 3) {
+            item.className = 'item-page current';
+          } else {
+            item.className = 'item-page';
+          }
+        });
+      } else {
+        let start = this.count - 7 + 1;
+        this.pageItemEle.forEach((item, index) => {
+          item.innerText = index + start;
+          item.className = 'item-page';
+          if (7 - 1 - index === this.count - num) {
+            item.className = 'item-page current';
+          }
+        });
+      }
     }
 
     // 前一页 后一页 样式
@@ -119,23 +131,27 @@ class Pagination {
     }
     if (num === 1) {
       this.prePageEle.className = 'item-pre-page disable';
-      this.nextPageEle.className = 'item-next-page';
-    } else if (num === this.count) {
-      this.nextPageEle.className = 'item-next-page disable';
+    } else {
       this.prePageEle.className = 'item-pre-page';
+    }
+    if (num === this.count) {
+      this.nextPageEle.className = 'item-next-page disable';
     } else {
       this.nextPageEle.className = 'item-next-page';
-      this.prePageEle.className = 'item-pre-page';
     }
 
     // 回调函数
     this.fn.call(this, this.currentPage, this.size);
   }
 
-  eventCenter () {
+  eventCenter() {
     // const boxEle = this.el.querySelector('.pagination-box');
     this.el.addEventListener('click', event => {
       // 点击页码
+      if (/(^|\s)(disable|current)(\s|$)/.test(event.target.className)) {
+        return null;
+      }
+
       if (event.target.className.includes('item-page')) {
         this.updatePage(event.target.innerText);
       }
@@ -149,7 +165,7 @@ class Pagination {
       }
     });
   }
-  reset (total, size) {
+  reset(total, size) {
     this.total = total;
     this.size = size || this.size;
     this.count = Math.ceil(this.total / this.size);
@@ -159,11 +175,11 @@ class Pagination {
     this.prePageEle = null;
     this.nextPageEle = null;
   }
-  update (total, size) {
+  update(total, size) {
     this.reset(total, size);
     this.createDom();
     this.updatePage(1);
-    }
+  }
 
 }
 

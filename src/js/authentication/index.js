@@ -17,7 +17,7 @@ class Authentication {
   getUserInfoFromServer() {
     const token = localStorage.getItem('token');
     if (!token) { // 没有token
-      return null;
+      return '';
     }
     return $getUserInfo();
   }

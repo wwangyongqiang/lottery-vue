@@ -11,7 +11,7 @@ import Pagination from './components/pagination'
 const page = {
   caipiaoid: 11,
   pagination: null,
-  size: 10,
+  size: 100,
   init() {
     this.initSelect();
     // this.createTrDom();
@@ -235,7 +235,7 @@ const page = {
         })
         .catch(err => { })
     };
-    this.pagination = new Pagination(pageWrapperEle, total, this.size, cb);
+    this.pagination = new Pagination(pageWrapperEle, total, size, cb);
   },
 };
 
