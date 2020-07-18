@@ -149,7 +149,7 @@ class Pagination {
     this.el.addEventListener('click', event => {
       // 点击页码
       if (/(^|\s)(disable|current)(\s|$)/.test(event.target.className)) {
-        return null;
+        return;
       }
 
       if (event.target.className.includes('item-page')) {

@@ -231,7 +231,7 @@ class News {
 
   removeLoading() {
     const loadingEle = document.querySelector('.news .news-loading');
-    if (!loadingEle) return null;
+    if (!loadingEle) return;
     loadingEle.remove();
   }
 
